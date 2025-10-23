@@ -15,6 +15,7 @@ import {
 } from '@mui/material';
 import { AliasTable } from './components/AliasTable';
 import { AliasForm } from './components/AliasForm';
+import { AliasFilter } from './components/AliasFilter';
 import { GroupManager } from './components/GroupManager';
 import {
   AliasGroups,
@@ -54,6 +55,11 @@ function App() {
   const [success, setSuccess] = useState<string | null>(null);
   const [activeTab, setActiveTab] = useState(0);
 
+  // États pour le filtrage
+  const [searchTerm, setSearchTerm] = useState('');
+  const [filterBy, setFilterBy] = useState<'all' | 'name' | 'command' | 'group'>('all');
+  const [selectedGroup, setSelectedGroup] = useState('');
+
   useEffect(() => {
     loadAliases();
   }, []);
@@ -70,7 +76,7 @@ function App() {
     }
   };
 
-  const getTableRows = (): AliasTableRow[] => {
+  const getAllTableRows = (): AliasTableRow[] => {
     const rows: AliasTableRow[] = [];
 
     Object.entries(aliases).forEach(([groupName, group]: [string, AliasGroup]) => {
@@ -85,6 +91,41 @@ function App() {
         });
       });
     });
+
+    return rows;
+  };
+
+  const getFilteredTableRows = (): AliasTableRow[] => {
+    let rows = getAllTableRows();
+
+    // Filtre par groupe sélectionné
+    if (selectedGroup) {
+      rows = rows.filter(row => row.group === selectedGroup);
+    }
+
+    // Filtre par terme de recherche
+    if (searchTerm.trim()) {
+      const term = searchTerm.toLowerCase().trim();
+
+      rows = rows.filter(row => {
+        switch (filterBy) {
+          case 'name':
+            return row.name.toLowerCase().includes(term);
+          case 'command':
+            return row.command.toLowerCase().includes(term);
+          case 'group':
+            return row.group.toLowerCase().includes(term);
+          case 'all':
+          default:
+            return (
+              row.name.toLowerCase().includes(term) ||
+              row.command.toLowerCase().includes(term) ||
+              row.group.toLowerCase().includes(term) ||
+              (row.description && row.description.toLowerCase().includes(term))
+            );
+        }
+      });
+    }
 
     return rows;
   };
@@ -165,6 +206,12 @@ function App() {
     setActiveTab(newValue);
   };
 
+  const handleClearFilters = () => {
+    setSearchTerm('');
+    setFilterBy('all');
+    setSelectedGroup('');
+  };
+
   return (
     <ThemeProvider theme={theme}>
       <CssBaseline />
@@ -190,8 +237,21 @@ function App() {
               <AliasForm onAddAlias={handleAddAlias} existingGroups={Object.keys(aliases)} />
             </Box>
 
+            <AliasFilter
+              searchTerm={searchTerm}
+              onSearchChange={setSearchTerm}
+              filterBy={filterBy}
+              onFilterChange={setFilterBy}
+              totalResults={getAllTableRows().length}
+              filteredResults={getFilteredTableRows().length}
+              availableGroups={Object.keys(aliases)}
+              selectedGroup={selectedGroup}
+              onGroupChange={setSelectedGroup}
+              onClearFilters={handleClearFilters}
+            />
+
             <AliasTable
-              data={getTableRows()}
+              data={getFilteredTableRows()}
               loading={loading}
               onUpdateAlias={handleUpdateAlias}
               onRemoveAlias={handleRemoveAlias}
