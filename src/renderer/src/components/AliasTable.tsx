@@ -232,18 +232,17 @@ export const AliasTable: React.FC<AliasTableProps> = ({
         <GridActionsCellItem
           icon={
             <Tooltip title="Supprimer">
-              <DeleteIcon />
+              <DeleteIcon sx={{ color: 'error.main' }} />
             </Tooltip>
           }
           label="Supprimer"
           onClick={() => handleRemove(params.row)}
           color="inherit"
-          sx={{ color: 'error.main' }}
         />,
         <GridActionsCellItem
           icon={
             <Tooltip title="Voir la commande">
-              <CodeIcon />
+              <CodeIcon sx={{ color: 'info.main' }} />
             </Tooltip>
           }
           label="Commande"
@@ -251,7 +250,6 @@ export const AliasTable: React.FC<AliasTableProps> = ({
             navigator.clipboard.writeText(params.row.command);
           }}
           color="inherit"
-          sx={{ color: 'info.main' }}
         />,
       ],
     },
