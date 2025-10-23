@@ -18,6 +18,8 @@ import { AliasForm } from './components/AliasForm';
 import { GroupManager } from './components/GroupManager';
 import {
   AliasGroups,
+  AliasGroup,
+  AliasData,
   AliasTableRow,
   AliasDataInput,
   AliasUpdateInput,
@@ -71,8 +73,8 @@ function App() {
   const getTableRows = (): AliasTableRow[] => {
     const rows: AliasTableRow[] = [];
 
-    Object.entries(aliases).forEach(([groupName, group]) => {
-      Object.entries(group).forEach(([aliasName, alias]) => {
+    Object.entries(aliases).forEach(([groupName, group]: [string, AliasGroup]) => {
+      Object.entries(group).forEach(([aliasName, alias]: [string, AliasData]) => {
         rows.push({
           id: `${groupName}-${aliasName}`,
           name: aliasName,

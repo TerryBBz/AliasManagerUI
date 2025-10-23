@@ -38,6 +38,8 @@ import {
   GroupRenameInput,
   GroupDeleteInput,
   GroupInfoInput,
+  RenameGroupResponse,
+  DeleteGroupResponse,
 } from '../types';
 
 interface GroupManagerProps {

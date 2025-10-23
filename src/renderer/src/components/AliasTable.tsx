@@ -237,7 +237,8 @@ export const AliasTable: React.FC<AliasTableProps> = ({
           }
           label="Supprimer"
           onClick={() => handleRemove(params.row)}
-          color="error"
+          color="inherit"
+          sx={{ color: 'error.main' }}
         />,
         <GridActionsCellItem
           icon={
@@ -249,7 +250,8 @@ export const AliasTable: React.FC<AliasTableProps> = ({
           onClick={() => {
             navigator.clipboard.writeText(params.row.command);
           }}
-          color="info"
+          color="inherit"
+          sx={{ color: 'info.main' }}
         />,
       ],
     },

@@ -11,6 +11,8 @@ import {
   AliasGroups,
   GroupStats,
   GroupInfo,
+  RenameGroupResponse,
+  DeleteGroupResponse,
 } from './index';
 
 export interface ElectronAPI {
@@ -23,8 +25,8 @@ export interface ElectronAPI {
   updateAliasDescription(data: AliasDescriptionInput): Promise<{ success: boolean; message: string }>;
 
   createGroup(data: GroupCreateInput): Promise<{ success: boolean; message: string }>;
-  renameGroup(data: GroupRenameInput): Promise<{ success: boolean; message: string; aliasCount: number }>;
-  deleteGroup(data: GroupDeleteInput): Promise<{ success: boolean; message: string; deletedAliasCount: number; transferredAliasCount: number }>;
+  renameGroup(data: GroupRenameInput): Promise<RenameGroupResponse>;
+  deleteGroup(data: GroupDeleteInput): Promise<DeleteGroupResponse>;
   getGroupInfo(data: GroupInfoInput): Promise<GroupInfo>;
   getGroupsStats(): Promise<GroupStats[]>;
 }

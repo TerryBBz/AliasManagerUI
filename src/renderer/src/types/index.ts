@@ -5,10 +5,12 @@ export interface AliasData {
   description?: string;
 }
 
+export interface AliasGroup {
+  [aliasName: string]: AliasData;
+}
+
 export interface AliasGroups {
-  [groupName: string]: {
-    [aliasName: string]: AliasData;
-  };
+  [groupName: string]: AliasGroup;
 }
 
 export interface AliasTableRow {
@@ -81,4 +83,17 @@ export interface GroupDeleteInput {
 
 export interface GroupInfoInput {
   groupName: string;
+}
+
+export interface RenameGroupResponse {
+  success: boolean;
+  message: string;
+  aliasCount: number;
+}
+
+export interface DeleteGroupResponse {
+  success: boolean;
+  message: string;
+  deletedAliasCount: number;
+  transferredAliasCount: number;
 }
