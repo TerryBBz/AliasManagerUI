@@ -1,0 +1,42 @@
+{
+  "name": "aliasmanager-ui",
+  "version": "1.0.0",
+  "description": "Interface graphique moderne pour gérer vos alias de terminal avec AliasManager",
+  "main": "src/main.js",
+  "author": "Terry",
+  "license": "MIT",
+  "scripts": {
+    "dev": "electron src/main.js --dev",
+    "dev:renderer": "cd src/renderer && npm start",
+    "start": "electron src/main.js",
+    "build": "electron-builder",
+    "build:react": "cd src/renderer && npm run build",
+    "install:renderer": "cd src/renderer && npm install"
+  },
+  "devDependencies": {
+    "electron": "^27.0.0",
+    "electron-builder": "^24.6.4"
+  },
+  "dependencies": {
+    "fs-extra": "^11.2.0"
+  },
+  "build": {
+    "appId": "com.terry.aliasmanager-ui",
+    "productName": "AliasManager UI",
+    "directories": {
+      "output": "dist"
+    },
+    "files": [
+      "src/**/*",
+      "assets/**/*",
+      "!src/renderer/src",
+      "!src/renderer/public",
+      "!src/renderer/node_modules",
+      "src/renderer/build/**/*"
+    ],
+    "mac": {
+      "icon": "assets/icon.icns",
+      "category": "public.app-category.developer-tools"
+    }
+  }
+}
